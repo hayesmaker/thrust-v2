@@ -27,10 +27,15 @@ export default class Aliases {
     };
 
     //Collision Groups
+    /**
+     * Forgotten why I made this Global.. why am i using Global at all!? WutFace
+     * @type {{BULLET: number, LAND: number, SHIP: number, ORB: number}}
+     */
     global.COLLISIONS = {
       SHIP:Math.pow(2,1),
       BULLET:Math.pow(2,2),
       LAND:Math.pow(2,3),
+      ORB:Math.pow(2, 4),
     };
   }
 }

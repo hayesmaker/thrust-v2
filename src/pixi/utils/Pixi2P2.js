@@ -11,7 +11,7 @@ const FRACTION = 0.01;
  * @return {number} The scaled value.
  */
 export function mpx (v) {
-  return v *= FACTOR;
+  return v * FACTOR;
 }
 
 /**
@@ -37,7 +37,7 @@ export function pxm (v) {
  * @return {number} The scaled value.
  */
 export function mpxi (v) {
-  return v *= -FACTOR;
+  return v * -FACTOR;
 }
 
 /**
