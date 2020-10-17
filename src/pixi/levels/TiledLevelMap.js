@@ -78,8 +78,9 @@ export default class TiledLevelMap {
       p2.vec2.scale(cm, c.centerOfMass, 1);
       cm[0] -= pxmi(w/2);
       cm[1] -= pxmi(h/2);
+      // c.sensor = true;
       c.collisionGroup = global.COLLISIONS.LAND;
-      c.collisionMask = global.COLLISIONS.SHIP | global.COLLISIONS.BULLET;
+      c.collisionMask = global.COLLISIONS.SHIP | global.COLLISIONS.BULLET | global.COLLISIONS.ORB;
       c.updateTriangles();
       c.updateCenterOfMass();
       c.updateBoundingRadius();

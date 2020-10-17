@@ -38,7 +38,7 @@ export default class Camera {
 
   addDebugShiz() {
     var graphics = new Graphics();
-    graphics.lineStyle(14, 0x00ffff, 0.8);
+    graphics.lineStyle(14, 0x00ff00, 0.5);
     graphics.drawRect(0,0,this.worldRect.width,this.worldRect.height);
     let border = new Sprite();
     this.world.addChild(border);

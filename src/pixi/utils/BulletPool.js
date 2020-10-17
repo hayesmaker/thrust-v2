@@ -3,12 +3,12 @@ import Pool from './Pool';
 
 export default class BulletPool extends Pool {
 
-  constructor(world) {
-    super({size: 25, world: world});
+  constructor(camera, world) {
+    super({size: 100, camera, world});
   }
 
-  create(world) {
-    return new PlayerBullet(world);
+  create(camera, world) {
+    return new PlayerBullet(camera, world);
   }
 
   destroy(bullet) {

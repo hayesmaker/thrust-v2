@@ -14,17 +14,19 @@ export default class Pool {
      */
     this.objects = [];
 
-    if(options.size !== undefined && options.world !== undefined){
-      this.resize(options.size, options.world);
+    if(options.size !== undefined && options.world !== undefined && options.camera !== undefined){
+      this.resize(options.size, options.camera, options.world);
     }
   }
 
   /**
    * @method resize
    * @param {number} size
+   * @param camera
+   * @param world
    * @return {Pool} Self, for chaining
    */
-  resize(size, world) {
+  resize(size,camera, world) {
     let objects = this.objects;
 
     while (objects.length > size) {
@@ -32,7 +34,7 @@ export default class Pool {
     }
 
     while (objects.length < size) {
-      objects.push(this.create(world));
+      objects.push(this.create(camera, world));
     }
 
     return this;

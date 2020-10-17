@@ -3,6 +3,7 @@ import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
 import BulletPool from '../utils/BulletPool';
 import Player from '../actors/Player';
+import KlystronPod from "../actors/KlystronPod";
 import InputHandler from '../commands/InputHandler';
 import {TweenLite, TimelineLite, Elastic, Power1} from 'gsap';
 
@@ -16,11 +17,6 @@ export default class Play {
     this.renderer = renderer;
     this.camera = new Camera(this.stage, this.renderer);
     this.hasStarted = false;
-    this.keyShoot = false;
-    this.keyLeft = false;
-    this.keyUp = false;
-    this.keyRight = false;
-    this.keyDown = false;
     this.isPaused = false;
   }
 
@@ -33,24 +29,31 @@ export default class Play {
     this.world = new p2.World({gravity: [0, 1]});
     this.world.setGlobalStiffness(1e18);
     this.world.defaultContactMaterial.restitution = 0.1;
-    this.world.on(
-      "impact", function (evt) {
-        let bodyA = evt.bodyA;
-        let bodyB = evt.bodyB;
-        //console.log('impact', bodyA.id, bodyB.id);
-        if (bodyA.shapes[0].collisionGroup == global.COLLISIONS.BULLET) this.checkBulletToGround(bodyA, bodyB);
-        if (bodyB.shapes[0].collisionGroup == global.COLLISIONS.BULLET) this.checkBulletToGround(bodyB, bodyA);
-
-      }.bind(this));
     this.addDebugBg();
+    //create actors
     this.map = new TiledLevelMap(this.camera, this.world);
     this.map.renderSprites();
     this.player = new Player(this.camera, this.world);
     this.player.renderSprite();
+    this.klystronPod = new KlystronPod(this.camera, this.world);
+
+    //init collisions
+    this.world.on(
+        "impact", (evt) => {
+          let bodyA = evt.bodyA;
+          let bodyB = evt.bodyB;
+          //console.log('impact', bodyA.id, bodyB.id);
+          if (bodyA.shapes[0].collisionGroup === global.COLLISIONS.BULLET) this.checkBulletToGround(bodyA, bodyB);
+          if (bodyB.shapes[0].collisionGroup === global.COLLISIONS.BULLET) this.checkBulletToGround(bodyB, bodyA);
+        });
     this.inputHanlder = new InputHandler(this, this.player);
     this.inputHanlder.initPlayCommands();
     this.inputHanlder.initKeyboardControl();
     this.initStaticMemory();
+  }
+
+  checkShipToSensor(bodyA, bodyB) {
+
   }
 
   checkBulletToGround(bullet, impact) {
@@ -62,13 +65,13 @@ export default class Play {
   }
 
   initStaticMemory() {
-    this.bulletPool = new BulletPool(this.world);
+    this.bulletPool = new BulletPool(this.camera, this.world);
     this.player.setBullets(this.bulletPool);
   }
 
   addDebugBg() {
     let graphics = new Graphics();
-    graphics.lineStyle(2, 0x00abcc, 0.5);
+    graphics.lineStyle(2, 0x00ff00, 0.25);
     let spr = new Sprite();
     this.camera.world.addChild(spr);
     spr.x = 0;
@@ -103,14 +106,18 @@ export default class Play {
     }
     this.inputHanlder.handleInput();
     if (this.player.sprite.position.y >= 600) {
-      TweenLite.to(this.camera, 1, {zoomLevel: 1.5});
+      TweenLite.to(this.camera, 1, {zoomLevel: INITIAL_ZOOM * 2});
     } else {
-      TweenLite.to(this.camera, 1, {zoomLevel: 1});
+      TweenLite.to(this.camera, 1, {zoomLevel: INITIAL_ZOOM});
     }
     this.camera.update();
     this.world.step(1 / 60);
     if (this.player) {
       this.player.update();
+    }
+    if (this.klystronPod)
+    {
+      this.klystronPod.update();
     }
   }
 

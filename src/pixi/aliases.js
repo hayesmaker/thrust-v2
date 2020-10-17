@@ -32,10 +32,11 @@ export default class Aliases {
      * @type {{BULLET: number, LAND: number, SHIP: number, ORB: number}}
      */
     global.COLLISIONS = {
-      SHIP:Math.pow(2,1),
-      BULLET:Math.pow(2,2),
-      LAND:Math.pow(2,3),
-      ORB:Math.pow(2, 4),
+      SHIP:Math.pow(2,0),
+      BULLET:Math.pow(2,1),
+      LAND:Math.pow(2,2),
+      ORB:Math.pow(2, 3),
+      ORB_SENSOR:Math.pow(2, 4),
     };
   }
 }
