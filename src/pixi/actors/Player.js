@@ -4,6 +4,8 @@ import BodyDebug from '../rendering/body-debug';
 
 const TURN_SPEED = 5;
 const DEBUG = false;
+const INITIAL_X = 800;
+const INITIAL_Y = 500;
 
 export default class Player {
 
@@ -24,23 +26,19 @@ export default class Player {
 
   renderSprite() {
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
+    let x = INITIAL_X;
+    let y = INITIAL_Y;
     this.sprite = new Sprite(combinedAtlas['player.png']);
     this.sprite.scale.set(1,1);
     this.sprite.anchor.set(0.5, 0.5);
-
     let shape = new p2.Box({width: pxm(this.sprite.width), height: pxm(this.sprite.height)});
     shape.collisionGroup = global.COLLISIONS.SHIP;
     shape.collisionMask = global.COLLISIONS.LAND | global.COLLISIONS.ORB;
-    this.body = new p2.Body({mass: 1, position: [pxm(400), pxm(400)]});
-
+    this.body = new p2.Body({mass: 1, position: [pxm(x), pxm(y)]});
     this.world.addBody(this.body);
-
-    let shape2 = new p2.Circle({radius: pxm(2)});
-    //shape2.sensor = true;
+    let shape2 = new p2.Circle({radius: pxm(1)});
     shape2.collisionGroup = global.COLLISIONS.SHIP_SENSOR;
     shape2.collisionMask = global.COLLISIONS.ORB_SENSOR;
-    //this.body2 = new p2.Body({position: [pxm(400), pxm(400)]});
-    //this.body2.addShape(shape2);
     this.body.addShape(shape2);
     this.body.addShape(shape);
 
@@ -56,7 +54,11 @@ export default class Player {
     }
   }
 
-  update() {
+  /**
+   *
+   * @param deltaFrame
+   */
+  update(deltaFrame) {
     this.sprite.position.x = mpx(this.body.position[0]);
     this.sprite.position.y = mpx(this.body.position[1]);
     this.sprite.rotation = this.body.angle;

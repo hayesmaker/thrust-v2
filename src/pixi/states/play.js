@@ -11,8 +11,10 @@ import {TweenLite, TimelineLite, Elastic, Power1} from 'gsap';
 
 const LEVEL_WORLD_HEIGHT = 1000;
 const LEVEL_WIDTH = 768;
-const INITIAL_ZOOM = 2;
-const FURTHER_ZOOM = 4;
+const INITIAL_ZOOM = 1;
+const FURTHER_ZOOM = 2;
+const REQUIRED_FPS = 30;
+const REQUIRED_GRAVITY = 1;
 
 export default class Play {
   constructor(stage, renderer) {
@@ -30,7 +32,7 @@ export default class Play {
 
   create() {
     //initialise physics world
-    this.world = new p2.World({gravity: [0, 1]});
+    this.world = new p2.World({gravity: [0, REQUIRED_GRAVITY]});
     this.world.setGlobalStiffness(1e18);
     this.world.defaultContactMaterial.restitution = 0.1;
     this.addDebugBg();
@@ -136,7 +138,11 @@ export default class Play {
     }
   }
 
-  update() {
+  /**
+   * @method play.update
+   * @param deltaFrame
+   */
+  update(deltaFrame) {
     if (this.isPaused) {
       return;
     }
@@ -150,16 +156,17 @@ export default class Play {
       TweenLite.to(this.camera, 2.5, {zoomLevel: INITIAL_ZOOM});
     }
     this.camera.update();
-    this.world.step(1 / 60);
+    this.world.step(1 / 60, deltaFrame, 1);
+    //this.world.step(deltaFrame / REQUIRED_FPS);
     if (this.player) {
-      this.player.update();
+      this.player.update(deltaFrame);
     }
     if (this.klystronPod)
     {
-      this.klystronPod.update();
+      this.klystronPod.update(deltaFrame);
     }
     if (this.tractorBeam) {
-      this.tractorBeam.update();
+      this.tractorBeam.update(deltaFrame);
     }
   }
 

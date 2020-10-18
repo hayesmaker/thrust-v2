@@ -16,9 +16,6 @@ export default class Aliases {
     global.Point = PIXI.Point;
     global.Rectangle = PIXI.Rectangle;
 
-    //Vendor Aliases
-    // global.TweenLite = TweenLite;
-
     //Thrust Aliases
     global.ASSETS = {
       textureAtlasPath: 'assets/atlas/combined.json',
