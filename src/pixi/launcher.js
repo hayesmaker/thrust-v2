@@ -1,3 +1,5 @@
+import {autoDetectRenderer, Container} from "pixi.js";
+
 import GameLoop from './rendering/game-loop';
 import Load from './states/load';
 import Play from './states/play';

@@ -1,4 +1,7 @@
+import {Graphics, Sprite, Ticker} from "pixi.js";
 import p2 from 'p2';
+import {TweenLite, TimelineLite, Elastic, Power1} from 'gsap';
+
 import Camera from '../rendering/camera';
 import TiledLevelMap from '../levels/TiledLevelMap';
 import BulletPool from '../utils/BulletPool';
@@ -7,13 +10,13 @@ import KlystronPod from "../actors/KlystronPod"
 import TractorBeam from "../actors/TractorBeam";
 import InputHandler from '../commands/InputHandler';
 
-import {TweenLite, TimelineLite, Elastic, Power1} from 'gsap';
+
 
 const LEVEL_WORLD_HEIGHT = 1000;
 const LEVEL_WIDTH = 768;
 const INITIAL_ZOOM = 1;
 const FURTHER_ZOOM = 2;
-const REQUIRED_FPS = 30;
+const REQUIRED_FPS = 60;
 const REQUIRED_GRAVITY = 1;
 
 export default class Play {
@@ -143,6 +146,7 @@ export default class Play {
    * @param deltaFrame
    */
   update(deltaFrame) {
+    console.log(deltaFrame);
     if (this.isPaused) {
       return;
     }
@@ -156,8 +160,7 @@ export default class Play {
       TweenLite.to(this.camera, 2.5, {zoomLevel: INITIAL_ZOOM});
     }
     this.camera.update();
-    this.world.step(1 / 60, deltaFrame, 1);
-    //this.world.step(deltaFrame / REQUIRED_FPS);
+    this.world.step(1 / REQUIRED_FPS, deltaFrame, 1);
     if (this.player) {
       this.player.update(deltaFrame);
     }

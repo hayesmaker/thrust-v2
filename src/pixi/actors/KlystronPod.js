@@ -1,5 +1,7 @@
-import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
+import {Loader, Graphics, Sprite} from "pixi.js";
 import p2  from 'p2';
+
+import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 import BodyDebug from '../rendering/body-debug';
 
 const RADIUS = 16;
@@ -26,6 +28,7 @@ export default class KlystronPod {
     this.sensor = null;
     this.body = null;
     this.sensorBody = null;
+    let loader = Loader.shared;
     this.gameData = loader.resources[global.ASSETS.levelDataPath].data;
     this.levelData = this.gameData.data[0];
     this.createPod();

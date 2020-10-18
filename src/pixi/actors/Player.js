@@ -1,7 +1,8 @@
-import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
+import {Graphics, Sprite, Loader} from "pixi.js";
 import p2  from 'p2';
-import BodyDebug from '../rendering/body-debug';
 
+import BodyDebug from '../rendering/body-debug';
+import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 const TURN_SPEED = 5;
 const DEBUG = false;
 const INITIAL_X = 800;
@@ -25,6 +26,7 @@ export default class Player {
   }
 
   renderSprite() {
+    let loader = Loader.shared;
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
     let x = INITIAL_X;
     let y = INITIAL_Y;

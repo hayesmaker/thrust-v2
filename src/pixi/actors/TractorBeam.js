@@ -1,3 +1,4 @@
+import {Graphics} from "pixi.js";
 import p2  from 'p2';
 import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 

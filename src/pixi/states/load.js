@@ -1,3 +1,4 @@
+import {Loader} from "pixi.js";
 
 export default class Load {
   constructor(stage) {
@@ -22,10 +23,10 @@ export default class Load {
   }
 
   load () {
-    //let loader = new loader()
-    global.loader.add(global.ASSETS.levelDataPath);
-    global.loader.add(global.ASSETS.textureAtlasPath);
-    global.loader.add(global.ASSETS.level1PhysicsPath)
+    let loader = Loader.shared;
+    loader.add(global.ASSETS.levelDataPath);
+    loader.add(global.ASSETS.textureAtlasPath);
+    loader.add(global.ASSETS.level1PhysicsPath)
       .load(this.create.bind(this));
   }
 

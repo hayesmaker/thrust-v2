@@ -1,3 +1,5 @@
+import {Container, Rectangle, Graphics, Sprite} from "pixi.js";
+
 export default class Camera {
 
   set zoomLevel(val) {
@@ -33,7 +35,7 @@ export default class Camera {
     h = h || 1000;
     this.defaultWorld(x,y,w,h);
     this.defaultView();
-    this.addDebugShiz();
+    //this.addDebugShiz();
   }
 
   addDebugShiz() {

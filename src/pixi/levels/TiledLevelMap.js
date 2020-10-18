@@ -1,4 +1,5 @@
 import  _ from 'lodash';
+import {Loader, Sprite} from "pixi.js";
 import p2 from 'p2';
 import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 import BodyDebug from '../rendering/body-debug';
@@ -22,6 +23,7 @@ export default class TiledLevelMap {
   }
 
   renderSprites() {
+    let loader = Loader.shared;
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
     let textureData = loader.resources[global.ASSETS.textureAtlasPath].data;
     let gameData = loader.resources[global.ASSETS.levelDataPath].data;
@@ -54,6 +56,7 @@ export default class TiledLevelMap {
   }
 
   initPhysics(xOffset) {
+    let loader = Loader.shared;
     let data = loader.resources[global.ASSETS.level1PhysicsPath].data['level-1'];
     let w = LEVEL_WIDTH * INITIAL_ZOOM;
     let h = LEVEL_HEIGHT;

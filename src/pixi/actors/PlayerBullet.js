@@ -1,6 +1,8 @@
-import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
+import {Graphics, Sprite} from "pixi.js";
 import p2  from 'p2';
+
 import BodyDebug from '../rendering/body-debug';
+import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 
 const DEBUG = false;
 const MAX_LIFESPAN = 60;
