@@ -3,7 +3,7 @@ import p2  from 'p2';
 import BodyDebug from '../rendering/body-debug';
 
 const RADIUS = 16;
-const DEBUG = true;
+const DEBUG = false;
 
 export default class KlystronPod {
   /**
@@ -24,26 +24,31 @@ export default class KlystronPod {
     this.active = false;
     this.sprite = null;
     this.sensor = null;
+    this.body = null;
+    this.sensorBody = null;
     this.gameData = loader.resources[global.ASSETS.levelDataPath].data;
     this.levelData = this.gameData.data[0];
     this.createPod();
     this.createSensor();
-    this.initDebug();
+    if (DEBUG) {
+      this.initDebug();
+    }
+
   }
 
   createSensor() {
     let x = this.levelData.orb.x;
     let y = this.levelData.orb.y;
     let radius = RADIUS * 6;
-    let graphics = new Graphics();
-    graphics.beginFill(0xff0000, 0.4)
-    graphics.lineStyle(1, 0x4affff, 1);
-    graphics.drawCircle(0, 0, radius);
-    graphics.endFill();
-    this.sensor = new Sprite();
-    this.sensor.addChild(graphics);
-    this.sensor.anchor.set(0.5,0.5);
-    this.camera.world.addChild(this.sensor);
+    // let graphics = new Graphics();
+    // graphics.beginFill(0xff0000, 0.1)
+    // //graphics.lineStyle(1, 0x4affff, 1);
+    // graphics.drawCircle(0, 0, radius);
+    // graphics.endFill();
+    // this.sensor = new Sprite();
+    // this.sensor.addChild(graphics);
+    // this.sensor.anchor.set(0.5,0.5);
+    // this.camera.world.addChild(this.sensor);
 
     let shape = new p2.Circle({
       radius: pxm(radius),
@@ -51,30 +56,15 @@ export default class KlystronPod {
     shape.collisionResponse = true;
     shape.sensor = true;
     shape.collisionGroup = global.COLLISIONS.ORB_SENSOR;
-    shape.collisionMask = global.COLLISIONS.SHIP;
+    shape.collisionMask = global.COLLISIONS.SHIP_SENSOR;
     this.sensorBody = new p2.Body({
       position: [pxm(x), pxm(y)],
     });
     this.sensorBody.addShape(shape);
     this.sensorBody.parent = this;
-    this.sensor.x = x;
-    this.sensor.y = y;
+    // this.sensor.x = x;
+    // this.sensor.y = y;
     this.world.addBody(this.sensorBody);
-
-    this.world.on(
-        "beginContact", (evt) => {
-          // let bodyA = evt.bodyA;
-          // let bodyB = evt.bodyB;
-          console.log("play :: world.on (beginContact) :: evt", evt);
-        }
-    )
-    this.world.on(
-        "endContact", (evt) => {
-          // let bodyA = evt.bodyA;
-          // let bodyB = evt.bodyB;
-          console.log("play :: world.on (endContact) :: evt", evt);
-        }
-    )
     if (DEBUG) {
       let spr = new Sprite();
       let sensorDbg = new Graphics();
@@ -105,6 +95,7 @@ export default class KlystronPod {
     this.body = new p2.Body({
       gravityScale: 0,
       mass: 1,
+
       angularVelocity: 0,
       position: [pxm(x), pxm(y)]
     });
@@ -131,7 +122,16 @@ export default class KlystronPod {
     }
   }
 
+  destroySensor() {
+    this.world.removeBody(this.sensorBody);
+    if (DEBUG) {
+      this.camera.world.removeChild(this.debugSensor.sprite);
+      this.debugSensor = null;
+    }
+  }
+
   destroy() {
+    alert();
     this.active = false;
     this.world.removeBody(this.body);
     this.body.setZeroForce();

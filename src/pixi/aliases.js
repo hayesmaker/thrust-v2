@@ -37,6 +37,7 @@ export default class Aliases {
       LAND:Math.pow(2,2),
       ORB:Math.pow(2, 3),
       ORB_SENSOR:Math.pow(2, 4),
+      SHIP_SENSOR:Math.pow(2, 5),
     };
   }
 }

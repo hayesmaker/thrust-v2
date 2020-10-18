@@ -9,12 +9,16 @@ const LEVEL_WIDTH = 768;
 const LEVEL_HEIGHT = 270;
 const TILE_SIZE = 96;
 const INITIAL_ZOOM = 2;
+const DEBUG = false;
 
 export default class TiledLevelMap {
 
   constructor(camera, world) {
     this.camera = camera;
     this.world = world;
+    this.renderSprites();
+    this.initPhysics(0);
+    this.initPhysics(1);
   }
 
   renderSprites() {
@@ -37,7 +41,7 @@ export default class TiledLevelMap {
       y = Math.floor(index / numTilesWide) * tileHeight;
       tile = new Sprite(combinedAtlas[frame.key]);
       tile.x = x;
-      tile.y = y + LEVEL_WORLD_HEIGHT-h;
+      tile.y = y + worldHeight-h;
       tile.scale.set(zoom, zoom);
       this.camera.world.addChild(tile);
 
@@ -47,8 +51,6 @@ export default class TiledLevelMap {
       tile2.scale.set(zoom, zoom);
       this.camera.world.addChild(tile2);
     });
-    this.initPhysics(0);
-    this.initPhysics(1);
   }
 
   initPhysics(xOffset) {
@@ -89,11 +91,13 @@ export default class TiledLevelMap {
     body.aabbNeedsUpdate = true;
     this.world.addBody(body);
 
-    let spr = new Sprite();
-    let graphics = new Graphics();
-    new BodyDebug(spr, graphics, body, {});
-    this.camera.world.addChild(spr);
-    spr.addChild(graphics);
+    if (DEBUG) {
+      let spr = new Sprite();
+      let graphics = new Graphics();
+      new BodyDebug(spr, graphics, body, {});
+      this.camera.world.addChild(spr);
+      spr.addChild(graphics);
+    }
   }
 
   getFramesArr(level1Data, textureData) {

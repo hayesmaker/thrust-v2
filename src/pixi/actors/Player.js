@@ -14,6 +14,8 @@ export default class Player {
     this.isLoaded = true;
     this.activeBullets = [];
     this.debug = true;
+    this.isAlive = true;
+    this.renderSprite();
   }
 
   setBullets(bulletPool) {
@@ -28,10 +30,20 @@ export default class Player {
 
     let shape = new p2.Box({width: pxm(this.sprite.width), height: pxm(this.sprite.height)});
     shape.collisionGroup = global.COLLISIONS.SHIP;
-    shape.collisionMask = global.COLLISIONS.LAND | global.COLLISIONS.ORB_SENSOR | global.COLLISIONS.ORB;
+    shape.collisionMask = global.COLLISIONS.LAND | global.COLLISIONS.ORB;
     this.body = new p2.Body({mass: 1, position: [pxm(400), pxm(400)]});
-    this.body.addShape(shape);
+
     this.world.addBody(this.body);
+
+    let shape2 = new p2.Circle({radius: pxm(2)});
+    //shape2.sensor = true;
+    shape2.collisionGroup = global.COLLISIONS.SHIP_SENSOR;
+    shape2.collisionMask = global.COLLISIONS.ORB_SENSOR;
+    //this.body2 = new p2.Body({position: [pxm(400), pxm(400)]});
+    //this.body2.addShape(shape2);
+    this.body.addShape(shape2);
+    this.body.addShape(shape);
+
 
     this.camera.world.addChild(this.sprite);
     this.camera.follow(this.sprite);

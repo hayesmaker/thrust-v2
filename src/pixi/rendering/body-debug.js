@@ -38,6 +38,7 @@ export default class BodyDebug {
     this.sprite.rotation = this.body.angle;
   }
 
+
   /**
    * Draws the P2 shapes to the Graphics object.
    *
