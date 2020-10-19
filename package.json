@@ -3,6 +3,8 @@
   "version": "0.2.1",
   "description": "Create a pixi game scaffold courtesy of @hayesmaker64",
   "main": "index.js",
+  "repository": "https://github.com/hayesmaker/thrust-v2",
+  "private": true,
   "dependencies": {
     "@armathai/pixi-stats": "^1.0.1",
     "fpsmeter": "^0.3.1",
