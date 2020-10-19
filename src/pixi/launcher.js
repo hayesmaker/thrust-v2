@@ -3,7 +3,6 @@ import {autoDetectRenderer, Container} from "pixi.js";
 import GameLoop from './rendering/game-loop';
 import Load from './states/load';
 import Play from './states/play';
-import FPSStats from './utils/fps-stats';
 import Aliases from './aliases';
 
 export default class PixiLauncher {
@@ -20,6 +19,9 @@ export default class PixiLauncher {
         transparent: false,
       },
     );
+    console.log("autoDetectRenderer", autoDetectRenderer);
+    console.log("launcher :: body", window.document, global.document.body);
+    console.log("renderer view", renderer);
     window.document.body.appendChild(renderer.view);
     let stage = new Container();
     stage.scale.y = 1;

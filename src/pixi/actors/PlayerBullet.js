@@ -75,7 +75,6 @@ export default class PlayerBullet {
   }
 
   update() {
-    console.log("Bullet active", this.lifespan);
     this.sprite.position.x = mpx(this.body.position[0]);
     this.sprite.position.y = mpx(this.body.position[1]);
     this.sprite.rotation = this.body.angle;

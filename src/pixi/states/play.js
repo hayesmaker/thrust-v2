@@ -146,7 +146,6 @@ export default class Play {
    * @param deltaFrame
    */
   update(deltaFrame) {
-    console.log(deltaFrame);
     if (this.isPaused) {
       return;
     }

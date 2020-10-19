@@ -1,8 +1,11 @@
-//import FPSStats from '../utils/fps-stats';
+import Stats from "stats.js";
 
 export default class GameLoop {
   constructor(renderer, stage, startState) {
-    //this.meter = new FPSStats();
+    this.stats = new Stats();
+    this.stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild( this.stats.dom );
+
     this.renderer = renderer;
     this.stage = stage;
     this.currentState = startState;
@@ -19,7 +22,7 @@ export default class GameLoop {
     this.isStopped = true;
   }
   loop () {
-    // this.meter && this.meter.tickStart();
+    this.stats.begin();
     if (this.stopped) {
       return;
     }
@@ -37,6 +40,6 @@ export default class GameLoop {
     this.renderer.render(this.stage);
     window.requestAnimationFrame(this.loop.bind(this));
 
-    //this.meter && this.meter.tickEnd();
+    this.stats.end();
   }
 }
