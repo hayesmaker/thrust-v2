@@ -16,6 +16,7 @@ export default class Player {
     this.bullets = null;
     this.isLoaded = true;
     this.activeBullets = [];
+    this.hasGrabbed = false;
     this.debug = true;
     this.isAlive = true;
     this.isCleanLeft = true;  //if orb is being redrawn the other side of the map, dont draw tractorbeam
@@ -77,14 +78,18 @@ export default class Player {
     if (px < this.levelWidth) {
       this.isCleanLeft = false;
       this.body.position[0] = pxm(this.levelWidth * 2);
-      this.orb.isClean = false;
-      this.orb.body.position[0] = this.orb.body.position[0] + pxm(this.levelWidth);
+      if (this.hasGrabbed) {
+        this.orb.isClean = false;
+        this.orb.body.position[0] = this.orb.body.position[0] + pxm(this.levelWidth);
+      }
     }
     if (px > this.levelWidth * 2) {
       this.isCleanRight = false;
       this.body.position[0] = pxm(this.levelWidth);
-      this.orb.isClean = false;
-      this.orb.body.position[0] = this.orb.body.position[0] - pxm(this.levelWidth);
+      if (this.hasGrabbed) {
+        this.orb.isClean = false;
+        this.orb.body.position[0] = this.orb.body.position[0] - pxm(this.levelWidth);
+      }
     }
     this.sprite.position.x = px;
     this.sprite.position.y = py;

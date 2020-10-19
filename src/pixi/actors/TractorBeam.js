@@ -52,6 +52,7 @@ export default class TractorBeam {
     }
 
     lock() {
+        this.player.hasGrabbed = true;
         this.hasGrabbed = true;
         this.isLocked = true;
     }
