@@ -1,15 +1,11 @@
-// Import this named export into your test file:
-export const mockAutoDetectRenderer = jest.fn();
-export const mock = jest.fn().mockImplementation(() => {
-    return {
-        PIXI: {
-            autoDetectRenderer: mockAutoDetectRenderer.mockReturnValue({
-                view: {
-
-                },
-            })
-        }
-    };
-});
-
-export default mock;
+// let fakeView = document.createElement('div');
+//
+// export default class PIXI {
+//     autoDetectRenderer() {
+//         return jest.fn().mockImplementation(() => {
+//             return {
+//                 view: fakeView,
+//             }
+//         })
+//     }
+// }

@@ -19,16 +19,11 @@ export default class PixiLauncher {
         transparent: false,
       },
     );
-    console.log("autoDetectRenderer", autoDetectRenderer);
-    console.log("launcher :: body", window.document, global.document.body);
-    console.log("renderer view", renderer);
     window.document.body.appendChild(renderer.view);
     let stage = new Container();
-    stage.scale.y = 1;
-    stage.scale.x = 1;    //FPSStats.init();
     this.load = new Load(stage);
     this.play = new Play(stage, renderer);
-    this.loop = new GameLoop(renderer, stage, this.load);
+    this.loop = new GameLoop(stage, renderer, this.load);
     this.loop.start();
     this.load.onComplete = this.startPlayState;
     this.load.onCompleteContext = this;

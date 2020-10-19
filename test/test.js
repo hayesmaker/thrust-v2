@@ -1,26 +1,28 @@
 
-import PixiLauncher from "../src/pixi/launcher";
 import * as PIXI from "pixi.js";
-// import { JSDOM } from "jsdom"
-// const dom = new JSDOM(`<body></body>`)
-// global.document = dom.window.document
-// global.window = dom.window
-
 jest.mock('pixi.js');
+
+import PixiLauncher from "../src/pixi/launcher";
 
 describe("noo", () => {
   beforeEach(() => {
-    console.log("moo moo");
-    console.log("autoDetectRender", PIXI.autoDetectRenderer);
-    PIXI.autoDetectRenderer.mockClear();
+    const fakeView = document.createElement('div');
+    PIXI.autoDetectRenderer.mockImplementation(() => {
+      return {
+        view: fakeView,
+        render: jest.fn()
+      }
+    });
+    PIXI.Loader = {
+      shared: {
+        add: jest.fn(),
+        load: jest.fn()
+      }
+    }
   });
 
   it("Main instantiates ok", () => {
-    console.log("body:", Node);
     let launcher = new PixiLauncher();
-    // // let renderer = PIXI.autoDetectRenderer();
-    // // console.log("renderer", renderer);
-    //
-    // expect(launcher).toBeTruthy();
+    expect(launcher).toBeTruthy();
   });
 });
