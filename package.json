@@ -1,6 +1,6 @@
 {
   "name": "v2-thruster",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Create a pixi game scaffold courtesy of @hayesmaker64",
   "main": "index.js",
   "dependencies": {
