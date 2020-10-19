@@ -3,14 +3,14 @@ import {autoDetectRenderer, Container} from "pixi.js";
 import GameLoop from './rendering/game-loop';
 import Load from './states/load';
 import Play from './states/play';
-import Aliases from './aliases';
+import Lookups from './lookups';
 
 export default class PixiLauncher {
   constructor() {
     let width = window.innerWidth;
     let height = window.innerHeight;
     let colour = 0x000000;
-    Aliases.init();
+    Lookups.init();
     let renderer = autoDetectRenderer(
       {
         width,

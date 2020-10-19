@@ -39,14 +39,15 @@ export default class Play {
     this.world.setGlobalStiffness(1e18);
     this.world.defaultContactMaterial.restitution = 0.1;
     this.addDebugBg();
+
     //create actors
     this.bulletPool = new BulletPool(this.camera, this.world);
     this.map = new TiledLevelMap(this.camera, this.world);
+    this.klystronPod = new KlystronPod(this.camera, this.world);
     this.player = new Player(this.camera, this.world);
     this.player.setBullets(this.bulletPool);
-    this.klystronPod = new KlystronPod(this.camera, this.world);
+    this.player.setOrb(this.klystronPod);
     this.tractorBeam = new TractorBeam({camera: this.camera, world: this.world, player: this.player, orb: this.klystronPod});
-
 
     //init collisions
     //impact
@@ -123,10 +124,10 @@ export default class Play {
     spr.addChild(graphics);
     let x = 0,
       y = 0,
-      w = (LEVEL_WIDTH * INITIAL_ZOOM) * 2,
+      w = (LEVEL_WIDTH * INITIAL_ZOOM) * 2 * 3,
       h = LEVEL_WORLD_HEIGHT,
-      hSpc = 100,
-      vSpc = 100;
+      hSpc = Math.round(LEVEL_WIDTH/5),
+      vSpc = hSpc;
     let numCols = w / hSpc;
     let numRows = h / vSpc;
     graphics.moveTo(x, y);
@@ -153,7 +154,7 @@ export default class Play {
       this.start();
     }
     this.inputHanlder.handleInput();
-    if (this.player.sprite.position.y >= 600) {
+    if (this.player.sprite.position.y >= 550) {
       TweenLite.to(this.camera, 2.5, {zoomLevel: FURTHER_ZOOM});
     } else {
       TweenLite.to(this.camera, 2.5, {zoomLevel: INITIAL_ZOOM});

@@ -27,6 +27,7 @@ export default class KlystronPod {
     this.sprite = null;
     this.sensor = null;
     this.body = null;
+    this.isClean = true;
     this.sensorBody = null;
     let loader = Loader.shared;
     this.gameData = loader.resources[global.ASSETS.levelDataPath].data;
@@ -40,7 +41,7 @@ export default class KlystronPod {
   }
 
   createSensor() {
-    let x = this.levelData.orb.x;
+    let x = this.levelData.orb.x + this.levelData.world.width;
     let y = this.levelData.orb.y;
     let radius = RADIUS * 6;
     // let graphics = new Graphics();
@@ -79,7 +80,7 @@ export default class KlystronPod {
 
   createPod() {
     let graphics = new Graphics();
-    graphics.lineStyle(3, 0x4affff, 1);
+    graphics.lineStyle(3, 0xffffff, 1);
     graphics.drawCircle(0, 0, RADIUS);
     this.sprite = new Sprite();
     this.sprite.addChild(graphics);
@@ -88,7 +89,7 @@ export default class KlystronPod {
     this.active = true;
     console.log("levelData", this.levelData);
 
-    let x = this.levelData.orb.x;
+    let x = this.levelData.orb.x + this.levelData.world.width;
     let y = this.levelData.orb.y;
     let shape = new p2.Circle({
       radius: pxm(RADIUS)
@@ -116,8 +117,10 @@ export default class KlystronPod {
   }
 
   update() {
-    this.sprite.position.x = mpx(this.body.position[0]);
-    this.sprite.position.y = mpx(this.body.position[1]);
+    if (this.isClean) {
+      this.sprite.position.x = mpx(this.body.position[0]);
+      this.sprite.position.y = mpx(this.body.position[1]);
+    }
     this.sprite.rotation = this.body.angle;
     this.sprite.visible = this.active;
     if (DEBUG) {

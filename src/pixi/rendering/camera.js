@@ -65,7 +65,7 @@ export default class Camera {
 
   defaultWorld(x,y,w,h) {
     //this.worldRect = new Rectangle(0, -this.renderer.height*3, this.renderer.width*3, 0);
-    this.worldRect = new Rectangle(x,y,w*2,h);
+    this.worldRect = new Rectangle(x,y,w*3,h);
   }
 
   updateViewport(x, y, width, height) {

@@ -1,4 +1,4 @@
-import {Graphics} from "pixi.js";
+import {Graphics, Loader} from "pixi.js";
 import p2  from 'p2';
 import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 
@@ -29,6 +29,11 @@ export default class TractorBeam {
         this.hasGrabbed = false;
         this.timeout = null;
         this.constraint = null;
+
+        let loader = Loader.shared;
+        let gameData = loader.resources[global.ASSETS.levelDataPath].data;
+        let levelData = gameData.data[0];
+        this.levelWidth = levelData.world.width;
 
         this.graphics = new Graphics();
         this.camera.world.addChild(this.graphics);
@@ -93,8 +98,35 @@ export default class TractorBeam {
         } else {
             this.graphics.lineStyle(LINE_WIDTH, LINE_COLOUR, LINE_ALPHA);
         }
+
+        /*
+        if (px < this.levelWidth) {
+              this.isCleanLeft = false;
+              this.body.position[0] = pxm(this.levelWidth * 2);
+              this.orb.body.position[0] = this.orb.body.position[0] + pxm(this.levelWidth);
+            }
+            if (px > this.levelWidth * 2) {
+              this.isCleanRight = false;
+              this.body.position[0] = pxm(this.levelWidth);
+              this.orb.body.position[0] = this.orb.body.position[0] - pxm(this.levelWidth);
+    }
+         */
+
         this.graphics.moveTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
         this.graphics.lineTo(this.player.sprite.position.x, this.player.sprite.position.y);
+
+        /*
+        if (this.player.isCleanLeft && this.player.isCleanRight) {
+            this.graphics.moveTo(this.orb.sprite.position.x, this.orb.sprite.position.y);
+            this.graphics.lineTo(this.player.sprite.position.x, this.player.sprite.position.y);
+        } else if (!this.player.isCleanLeft) {
+            //player has been warped to the right of the map
+            this.graphics.moveTo(this.orb.sprite.position.x - this.levelWidth, this.orb.sprite.position.y);
+            this.graphics.lineTo(this.player.sprite.position.x, this.player.sprite.position.y);
+        } else if (!this.player.isCleanRight) {
+            this.graphics.moveTo(this.orb.sprite.position.x + this.levelWidth, this.orb.sprite.position.y);
+            this.graphics.lineTo(this.player.sprite.position.x, this.player.sprite.position.y);
+        }*/
     }
 
 

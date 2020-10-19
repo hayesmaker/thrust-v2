@@ -1,5 +1,5 @@
 import  _ from 'lodash';
-import {Loader, Sprite} from "pixi.js";
+import {Loader, Sprite, Graphics} from "pixi.js";
 import p2 from 'p2';
 import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
 import BodyDebug from '../rendering/body-debug';
@@ -20,6 +20,7 @@ export default class TiledLevelMap {
     this.renderSprites();
     this.initPhysics(0);
     this.initPhysics(1);
+    this.initPhysics(2);
   }
 
   renderSprites() {
@@ -32,6 +33,7 @@ export default class TiledLevelMap {
     let x, y, tileWidth, tileHeight;
     let tile;
     let tile2;
+    let tile3;
     let zoom = INITIAL_ZOOM;
     tileWidth = tileHeight = TILE_SIZE * zoom;
     let worldWidth = LEVEL_WIDTH * zoom;
@@ -52,6 +54,13 @@ export default class TiledLevelMap {
       tile2.y = tile.y;
       tile2.scale.set(zoom, zoom);
       this.camera.world.addChild(tile2);
+
+      tile3 = new Sprite(combinedAtlas[frame.key]);
+      tile3.x = tile.x + worldWidth * 2;
+      tile3.y = tile.y;
+      tile3.scale.set(zoom, zoom);
+      this.camera.world.addChild(tile3);
+
     });
   }
 

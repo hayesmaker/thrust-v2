@@ -18,6 +18,12 @@ export default class Player {
     this.activeBullets = [];
     this.debug = true;
     this.isAlive = true;
+    this.isCleanLeft = true;  //if orb is being redrawn the other side of the map, dont draw tractorbeam
+    this.isCleanRight = true;  //if orb is being redrawn the other side of the map, dont draw tractorbeam
+    let loader = Loader.shared;
+    let gameData = loader.resources[global.ASSETS.levelDataPath].data;
+    let levelData = gameData.data[0];
+    this.levelWidth = levelData.world.width;
     this.renderSprite();
   }
 
@@ -25,10 +31,14 @@ export default class Player {
     this.bullets = bulletPool;
   }
 
+  setOrb(orb) {
+    this.orb = orb;
+  }
+
   renderSprite() {
     let loader = Loader.shared;
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
-    let x = INITIAL_X;
+    let x = INITIAL_X + this.levelWidth;
     let y = INITIAL_Y;
     this.sprite = new Sprite(combinedAtlas['player.png']);
     this.sprite.scale.set(1,1);
@@ -43,8 +53,6 @@ export default class Player {
     shape2.collisionMask = global.COLLISIONS.ORB_SENSOR;
     this.body.addShape(shape2);
     this.body.addShape(shape);
-
-
     this.camera.world.addChild(this.sprite);
     this.camera.follow(this.sprite);
     if (DEBUG) {
@@ -61,8 +69,25 @@ export default class Player {
    * @param deltaFrame
    */
   update(deltaFrame) {
-    this.sprite.position.x = mpx(this.body.position[0]);
-    this.sprite.position.y = mpx(this.body.position[1]);
+    this.isCleanLeft = true;
+    this.isCleanRight = true;
+    this.orb.isClean = true;
+    let px = mpx(this.body.position[0]);
+    let py = mpx(this.body.position[1]);
+    if (px < this.levelWidth) {
+      this.isCleanLeft = false;
+      this.body.position[0] = pxm(this.levelWidth * 2);
+      this.orb.isClean = false;
+      this.orb.body.position[0] = this.orb.body.position[0] + pxm(this.levelWidth);
+    }
+    if (px > this.levelWidth * 2) {
+      this.isCleanRight = false;
+      this.body.position[0] = pxm(this.levelWidth);
+      this.orb.isClean = false;
+      this.orb.body.position[0] = this.orb.body.position[0] - pxm(this.levelWidth);
+    }
+    this.sprite.position.x = px;
+    this.sprite.position.y = py;
     this.sprite.rotation = this.body.angle;
     if (DEBUG) {
       this.playerDebug.updateSpriteTransform();
