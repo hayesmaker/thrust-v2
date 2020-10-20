@@ -39,22 +39,22 @@ export default class InputHandler {
     this.keyDown = false;
     this.keySpace = false;
     this.keySpaceUp = true;
-    this.commandMan = new CommandManager();
   }
 
   /**
    * @method inPlayCommands
    */
   initPlayCommands() {
-    this.nullCommand = new NullCommand(null, this.replay);
-    this.buttonX = new PlayerFireCommand(this.player, this.replay);
-    this.buttonY = new ThrustCommand(this.player, this.replay);
-    this.buttonA = new PlayerFireCommand(this.player, this.replay);
-    this.buttonB = new ThrustCommand(this.player, this.replay);
-    this.padRight = new RotateRightCommand(this.player, this.replay);
-    this.padLeft = new RotateLeftCommand(this.player, this.replay);
-    this.fireUp = new PlayerLoadCommand(this.player, this.replay);
-    this.reset = new RotateResetCommand(this.player, this.replay);
+    this.commandMan = new CommandManager();
+    this.nullCommand = new NullCommand(null, this.commandMan);
+    this.buttonX = new PlayerFireCommand(this.player, this.commandMan);
+    this.buttonY = new ThrustCommand(this.player, this.commandMan);
+    this.buttonA = new PlayerFireCommand(this.player, this.commandMan);
+    this.buttonB = new ThrustCommand(this.player, this.commandMan);
+    this.padRight = new RotateRightCommand(this.player, this.commandMan);
+    this.padLeft = new RotateLeftCommand(this.player, this.commandMan);
+    this.fireUp = new PlayerLoadCommand(this.player, this.commandMan);
+    this.reset = new RotateResetCommand(this.player, this.commandMan);
     this.padUp = this.nullCommand;
     this.padDown = this.nullCommand;
   }

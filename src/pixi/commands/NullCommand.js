@@ -1,8 +1,8 @@
 import Command from "./Command";
 
 export default class NullCommand extends Command{
-  constructor(player, replay) {
-    super(player, replay);
+  constructor(player, manager) {
+    super(player, manager);
   }
 
   execute() {

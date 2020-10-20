@@ -26,7 +26,6 @@ export default class GameLoop {
     if (this.stopped) {
       return;
     }
-
     var newTime = Date.now();
     var deltaTime = newTime - this.oldTime;
     this.oldTime = newTime;

@@ -2,11 +2,12 @@ import Command from './Command';
 
 export default class RotateLeftCommand extends Command {
 
-  constructor(player, replay) {
-    super(player, replay);
+  constructor(player, commandManager) {
+    super(player, commandManager);
   }
 
-  execute() {
+  execute(shouldAddToReplay) {
+    super.execute(shouldAddToReplay);
     this.player.rotateLeft();
   }
 

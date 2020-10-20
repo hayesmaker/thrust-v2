@@ -19,6 +19,7 @@ const REQUIRED_FPS = 60;
 const REQUIRED_GRAVITY = 1;
 
 export default class Play {
+
     constructor(stage, renderer) {
         this.stage = stage;
         this.renderer = renderer;
