@@ -1,6 +1,6 @@
 {
   "name": "v2-thruster",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Create a pixi game scaffold courtesy of @hayesmaker64",
   "main": "index.js",
   "repository": "https://github.com/hayesmaker/thrust-v2",
