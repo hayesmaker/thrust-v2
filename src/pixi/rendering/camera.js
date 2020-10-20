@@ -3,7 +3,7 @@ import {Container, Rectangle, Graphics, Sprite} from "pixi.js";
 export default class Camera {
 
   set zoomLevel(val) {
-    if (val != this.zoom) {
+    if (val !== this.zoom) {
       this.zoomTo(val);
     }
     this.zoom = val;
@@ -21,14 +21,15 @@ export default class Camera {
    * @param y
    * @param w
    * @param h
+   * @param initialZoom
    */
-  constructor(stage, renderer,x,y,w,h) {
+  constructor(stage, renderer,x,y,w,h, initialZoom) {
     this.stage = stage;
     this.renderer = renderer;
     this.target = null;
     this.world = new Container();
     this.stage.addChild(this.world);
-    this.zoom = 1;
+    this.zoom = initialZoom || 1;
     x = x || 0;
     y = y || 0;
     w = w || 1546;

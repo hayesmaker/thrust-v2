@@ -10,6 +10,7 @@ import MenuLeftCommand from './MenuLeftComand';
 import MenuRightCommand from './MenuRightComand';
 import MenuDownCommand from './MenuDownComand';
 import MenuSelectCommand from './MenuSelectCommand';
+import CommandManager from "./CommandManager";
 
 const KEY_DOWN = "arrowdown";
 const KEY_UP = "arrowup";
@@ -32,27 +33,28 @@ export default class InputHandler {
   constructor(state, player) {
     this.state = state;
     this.player = player;
-    this.nullCommand = new NullCommand();
     this.keyLeft = false;
     this.keyRight = false;
     this.keyUp = false;
     this.keyDown = false;
     this.keySpace = false;
     this.keySpaceUp = true;
+    this.commandMan = new CommandManager();
   }
 
   /**
    * @method inPlayCommands
    */
   initPlayCommands() {
-    this.buttonX = new PlayerFireCommand(this.player);
-    this.buttonY = new ThrustCommand(this.player);
-    this.buttonA = new PlayerFireCommand(this.player);
-    this.buttonB = new ThrustCommand(this.player);
-    this.padRight = new RotateRightCommand(this.player);
-    this.padLeft = new RotateLeftCommand(this.player);
-    this.fireUp = new PlayerLoadCommand(this.player);
-    this.reset = new RotateResetCommand(this.player);
+    this.nullCommand = new NullCommand(null, this.replay);
+    this.buttonX = new PlayerFireCommand(this.player, this.replay);
+    this.buttonY = new ThrustCommand(this.player, this.replay);
+    this.buttonA = new PlayerFireCommand(this.player, this.replay);
+    this.buttonB = new ThrustCommand(this.player, this.replay);
+    this.padRight = new RotateRightCommand(this.player, this.replay);
+    this.padLeft = new RotateLeftCommand(this.player, this.replay);
+    this.fireUp = new PlayerLoadCommand(this.player, this.replay);
+    this.reset = new RotateResetCommand(this.player, this.replay);
     this.padUp = this.nullCommand;
     this.padDown = this.nullCommand;
   }
@@ -69,35 +71,45 @@ export default class InputHandler {
    */
   handleKeyInput() {
     if (this.keyUp) {
-      this.buttonB.execute();
+      this.buttonB.execute(true);
     }
     if (this.keySpaceUp) {
-      this.fireUp.execute();
+      this.fireUp.execute(true);
     }
     if (this.keySpace) {
-      this.buttonA.execute();
+      this.buttonA.execute(true);
     }
     if (this.keyLeft) {
-      this.padLeft.execute();
+      this.padLeft.execute(true);
     }
     if (this.keyRight) {
-      this.padRight.execute();
+      this.padRight.execute(true);
     }
     if (!this.keyLeft && !this.keyRight) {
-      this.reset.execute();
+      this.reset.execute(true);
     }
   }
 
   /**
    * @method initKeyboardControls
    */
-  initKeyboardControl() {
+  initWindowEvents() {
     window.onkeydown = (evt) => {
       this.handleKey(evt, true);
     };
     window.onkeyup = (evt) => {
       this.handleKey(evt, false);
     };
+    window.addEventListener('blur', this.pause.bind(this));
+    window.addEventListener('focus', this.play.bind(this));
+  }
+
+  pause() {
+    this.state.pause();
+  }
+
+  play() {
+    this.state.play();
   }
 
   /**

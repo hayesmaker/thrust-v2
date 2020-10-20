@@ -1,6 +1,6 @@
 import p2 from 'p2';
 import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
-import _ from 'lodash';
+import {merge} from 'lodash';
 
 export default class BodyDebug {
 
@@ -17,7 +17,7 @@ export default class BodyDebug {
        alpha: 0.25
      };
 
-     this.settings = _.merge(defaultSettings, settings);
+     this.settings = merge(defaultSettings, settings);
      this.ppu = this.settings.pixelsPerLengthUnit;
      // this.ppu = -1 * this.ppu;
      this.body = body;

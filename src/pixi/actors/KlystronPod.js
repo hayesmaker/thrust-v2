@@ -1,7 +1,7 @@
 import {Loader, Graphics, Sprite} from "pixi.js";
 import p2  from 'p2';
 
-import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
+import {mpx, pxm} from '../utils/Pixi2P2';
 import BodyDebug from '../rendering/body-debug';
 
 const RADIUS = 16;

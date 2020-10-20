@@ -1,6 +1,7 @@
 export default class Command {
-  constructor(player) {
+  constructor(player, replay) {
     this.player = player;
+    this.replay = replay;
   }
 
   execute() {

@@ -1,9 +1,21 @@
 
 export default class CommandManager {
 
-  constructor() {
 
+
+  constructor() {
+    this.replay = [];
   }
+
+  addCommand(command) {
+    this.replay.push(command);
+  }
+
+  clearReplay() {
+    this.replay = [];
+  }
+
+
 
 
 }

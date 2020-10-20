@@ -19,7 +19,7 @@ module.exports = {
   },
   devtool: 'eval-cheap-source-map',
   plugins: [
-    new BundleAnalyzerPlugin()
+    //new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [

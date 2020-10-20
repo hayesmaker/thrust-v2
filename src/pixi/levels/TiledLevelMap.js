@@ -1,7 +1,7 @@
-import  _ from 'lodash';
+import {pickBy, each, map} from 'lodash';
 import {Loader, Sprite, Graphics} from "pixi.js";
 import p2 from 'p2';
-import {mpx, pxm, mpxi, pxmi} from '../utils/Pixi2P2';
+import {pxm, pxmi} from '../utils/Pixi2P2';
 import BodyDebug from '../rendering/body-debug';
 import {degToRad} from '../utils/maths';
 
@@ -40,7 +40,7 @@ export default class TiledLevelMap {
     let worldHeight = LEVEL_WORLD_HEIGHT;
     let numTilesWide = worldWidth / tileWidth;
     let h = LEVEL_HEIGHT;
-    _.each(frames, (frame, index) => {
+    each(frames, (frame, index) => {
       x = Math.floor(index % numTilesWide) * tileWidth;
       y = Math.floor(index / numTilesWide) * tileHeight;
       tile = new Sprite(combinedAtlas[frame.key]);
@@ -113,10 +113,10 @@ export default class TiledLevelMap {
   }
 
   getFramesArr(level1Data, textureData) {
-    let result = _.pickBy(textureData.frames, function(value, key) {
+    let result = pickBy(textureData.frames, function(value, key) {
       return _.startsWith(key, level1Data.atlasData.levelKey);
     });
-    return _.map(result, (value, key) => {
+    return map(result, (value, key) => {
       return {
         frame:value,
         key: key

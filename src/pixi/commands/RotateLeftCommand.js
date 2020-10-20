@@ -2,8 +2,8 @@ import Command from './Command';
 
 export default class RotateLeftCommand extends Command {
 
-  constructor(player) {
-    super(player);
+  constructor(player, replay) {
+    super(player, replay);
   }
 
   execute() {
