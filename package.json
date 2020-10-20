@@ -27,10 +27,10 @@
     "sinon-chai": "^2.8.0",
     "webpack": "^5.1.3",
     "webpack-cli": "^4.1.0",
-    "webpack-serve": "^3.2.0"
+    "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "start": "webpack-serve --static ./dist --open --hmr false",
+    "start:dev": "webpack-cli serve",
     "build": "webpack --config webpack.config.js --mode development",
     "test": "jest"
   },

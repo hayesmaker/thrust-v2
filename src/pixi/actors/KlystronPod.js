@@ -80,7 +80,7 @@ export default class KlystronPod {
 
   createPod() {
     let graphics = new Graphics();
-    graphics.lineStyle(3, 0xffffff, 1);
+    graphics.lineStyle(3, 0x00ff00, 1);
     graphics.drawCircle(0, 0, RADIUS);
     this.sprite = new Sprite();
     this.sprite.addChild(graphics);
