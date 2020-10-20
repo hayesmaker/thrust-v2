@@ -30,7 +30,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "start:dev": "webpack-cli serve",
+    "start": "webpack-cli serve",
     "build": "webpack --config webpack.config.js --mode development",
     "test": "jest"
   },
