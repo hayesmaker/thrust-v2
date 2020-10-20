@@ -11,6 +11,12 @@ import MenuRightCommand from './MenuRightComand';
 import MenuDownCommand from './MenuDownComand';
 import MenuSelectCommand from './MenuSelectCommand';
 
+const KEY_DOWN = "arrowdown";
+const KEY_UP = "arrowup";
+const KEY_LEFT = "arrowleft";
+const KEY_RIGHT = "arrowright";
+const KEY_SPACE = "space";
+
 /**
  * Command driven InputHandler
  *
@@ -87,50 +93,35 @@ export default class InputHandler {
    */
   initKeyboardControl() {
     window.onkeydown = (evt) => {
-      this.handleKey(evt.keyCode, true);
+      this.handleKey(evt, true);
     };
     window.onkeyup = (evt) => {
-      this.handleKey(evt.keyCode, false);
+      this.handleKey(evt, false);
     };
-    window.onkeypress = (evt) => {
-      this.handleKeyPress(evt.keyCode);
-    };
-  }
-
-  /**
-   * @method handleKeyPress
-   * @param code
-   */
-  handleKeyPress(code) {
-    switch (code) {
-      case 27:
-      case 167:
-          this.state.isPaused = !this.state.isPaused;
-        break;
-    }
   }
 
   /**
    * @mehood handleKey
-   * @param code
-   * @param isDown
+   * @param evt {KeyboardEvent}
+   * @param isDown {Boolean}
    */
-  handleKey(code, isDown) {
-    switch (code) {
-      case 32:
+  handleKey(evt, isDown) {
+    let key = evt.code;
+    switch (key.toLowerCase()) {
+      case KEY_SPACE:
         this.keySpace = isDown;
         this.keySpaceUp = !isDown;
         break;
-      case 37:
+      case KEY_LEFT:
         this.keyLeft = isDown;
         break;
-      case 38:
+      case KEY_UP:
         this.keyUp = isDown;
         break;
-      case 39:
+      case KEY_RIGHT:
         this.keyRight = isDown;
         break;
-      case 40:
+      case KEY_DOWN:
         this.keyDown = isDown;
         break;
     }
