@@ -3,18 +3,19 @@ import p2  from 'p2';
 
 import BodyDebug from '../rendering/body-debug';
 import {mpx, pxm} from '../utils/Pixi2P2';
+import Actor from "./Actor";
 const TURN_SPEED = 5;
 const DEBUG = false;
 const INITIAL_X = 800;
 const INITIAL_Y = 500;
 
-export default class Player {
+export default class Player extends Actor {
 
-  constructor(camera, world) {
-    this.camera = camera;
-    this.world = world;
+  constructor(params) {
+    super(params);
     this.bullets = null;
     this.isLoaded = true;
+    this.isReset = true;
     this.activeBullets = [];
     this.hasGrabbed = false;
     this.debug = true;
@@ -25,7 +26,8 @@ export default class Player {
     let gameData = loader.resources[global.ASSETS.levelDataPath].data;
     let levelData = gameData.data[0];
     this.levelWidth = levelData.world.width;
-    this.renderSprite();
+    this.createSprite();
+    this.createBody();
   }
 
   setBullets(bulletPool) {
@@ -36,14 +38,20 @@ export default class Player {
     this.orb = orb;
   }
 
-  renderSprite() {
+  createSprite() {
+    super.createSprite();
     let loader = Loader.shared;
     let combinedAtlas = loader.resources[global.ASSETS.textureAtlasPath].textures;
+    this.sprite = new Sprite(combinedAtlas['player.png']);
+    this.sprite.anchor.set(0.5, 0.5);
+    this.camera.world.addChild(this.sprite);
+    this.camera.follow(this.sprite);
+  }
+
+  createBody() {
+    super.createBody();
     let x = INITIAL_X + this.levelWidth;
     let y = INITIAL_Y;
-    this.sprite = new Sprite(combinedAtlas['player.png']);
-    this.sprite.scale.set(1,1);
-    this.sprite.anchor.set(0.5, 0.5);
     let shape = new p2.Box({width: pxm(this.sprite.width), height: pxm(this.sprite.height)});
     shape.collisionGroup = global.COLLISIONS.SHIP;
     shape.collisionMask = global.COLLISIONS.LAND | global.COLLISIONS.ORB;
@@ -54,8 +62,6 @@ export default class Player {
     shape2.collisionMask = global.COLLISIONS.ORB_SENSOR;
     this.body.addShape(shape2);
     this.body.addShape(shape);
-    this.camera.world.addChild(this.sprite);
-    this.camera.follow(this.sprite);
     if (DEBUG) {
       let dubugSpr = new Sprite();
       let graphics = new Graphics();
@@ -115,10 +121,12 @@ export default class Player {
   }
 
   rotateLeft() {
+    this.isReset = false;
     this.body.angularVelocity = -TURN_SPEED;
   }
 
   rotateRight() {
+    this.isReset = false;
     this.body.angularVelocity = TURN_SPEED;
   }
 
@@ -133,10 +141,20 @@ export default class Player {
   }
 
   loadGun() {
+    console.log("loadGun");
     this.isLoaded = true;
   }
 
   resetAngularForces() {
+    this.isReset = true;
     this.body.angularVelocity = 0;
+  }
+
+  resetPosition() {
+    this.isLoaded = true;
+    let x = INITIAL_X + this.levelWidth;
+    let y = INITIAL_Y;
+    super.resetPosition(x, y, 0);
+    this.update();
   }
 }

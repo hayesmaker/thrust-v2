@@ -1,17 +1,14 @@
 export default class Command {
-  constructor(player, manager) {
+  constructor(player, name) {
+    this.name = name;
     this.player = player;
-    this.manager = manager;
-    this.executeTime = null;
   }
 
-  addTime(time) {
-    this.executeTime = time;
+  execute() {
+    //console.log("Execute", this.toString());
   }
 
-  execute(shouldAddToReplay) {
-    if (shouldAddToReplay) {
-      this.manager.addCommand(this);
-    }
+  toString() {
+    return this.name;
   }
 }

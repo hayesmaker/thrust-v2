@@ -59,8 +59,8 @@ export default class Play {
         //create actors
         this.bulletPool = new BulletPool(this.camera, this.world);
         this.map = new TiledLevelMap(this.camera, this.world);
-        this.klystronPod = new KlystronPod(this.camera, this.world);
-        this.player = new Player(this.camera, this.world);
+        this.klystronPod = new KlystronPod({camera: this.camera, world: this.world});
+        this.player = new Player({camera: this.camera, world: this.world});
         this.player.setBullets(this.bulletPool);
         this.player.setOrb(this.klystronPod);
         this.tractorBeam = new TractorBeam({

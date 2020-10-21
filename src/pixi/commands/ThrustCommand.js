@@ -2,12 +2,12 @@ import Command from './Command';
 
 export default class ThrustCommand extends Command {
 
-  constructor(player, commandManager) {
-    super(player, commandManager);
+  constructor(player) {
+    super(player, "Thrust");
   }
 
-  execute(shouldAddToReplay) {
-    super.execute(shouldAddToReplay);
+  execute() {
+    super.execute();
     this.player.thrust();
   }
 

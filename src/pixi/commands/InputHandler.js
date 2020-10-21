@@ -45,16 +45,16 @@ export default class InputHandler {
    * @method inPlayCommands
    */
   initPlayCommands() {
-    this.commandMan = new CommandManager();
-    this.nullCommand = new NullCommand(null, this.commandMan);
-    this.buttonX = new PlayerFireCommand(this.player, this.commandMan);
-    this.buttonY = new ThrustCommand(this.player, this.commandMan);
-    this.buttonA = new PlayerFireCommand(this.player, this.commandMan);
-    this.buttonB = new ThrustCommand(this.player, this.commandMan);
-    this.padRight = new RotateRightCommand(this.player, this.commandMan);
-    this.padLeft = new RotateLeftCommand(this.player, this.commandMan);
-    this.fireUp = new PlayerLoadCommand(this.player, this.commandMan);
-    this.reset = new RotateResetCommand(this.player, this.commandMan);
+    this.commandManager = new CommandManager();
+    this.nullCommand = new NullCommand(null);
+    this.buttonX = new PlayerFireCommand(this.player);
+    this.buttonY = new ThrustCommand(this.player);
+    this.buttonA = new PlayerFireCommand(this.player);
+    this.buttonB = new ThrustCommand(this.player);
+    this.padRight = new RotateRightCommand(this.player);
+    this.padLeft = new RotateLeftCommand(this.player);
+    this.fireUp = new PlayerLoadCommand(this.player);
+    this.reset = new RotateResetCommand(this.player);
     this.padUp = this.nullCommand;
     this.padDown = this.nullCommand;
   }
@@ -70,22 +70,34 @@ export default class InputHandler {
    * @method handleKeyInput
    */
   handleKeyInput() {
+    if (this.commandManager.isPlaying) {
+      console.log("handleKeyInput :: replay is playing");
+      return;
+    }
     if (this.keyUp) {
+      this.commandManager.addCommand(this.buttonB);
       this.buttonB.execute(true);
     }
-    if (this.keySpaceUp) {
+    if (this.keySpaceUp && !this.player.isLoaded) {
+      this.commandManager.addCommand(this.fireUp);
       this.fireUp.execute(true);
     }
-    if (this.keySpace) {
+    if (this.keySpace && this.player.isLoaded) {
+      this.commandManager.addCommand(this.buttonA);
       this.buttonA.execute(true);
     }
     if (this.keyLeft) {
+      this.commandManager.addCommand(this.padLeft);
       this.padLeft.execute(true);
+      return;
     }
     if (this.keyRight) {
+      this.commandManager.addCommand(this.padRight);
       this.padRight.execute(true);
+      return;
     }
     if (!this.keyLeft && !this.keyRight) {
+      this.commandManager.addCommand(this.reset);
       this.reset.execute(true);
     }
   }
@@ -95,10 +107,10 @@ export default class InputHandler {
    */
   initWindowEvents() {
     window.onkeydown = (evt) => {
-      this.handleKey(evt, true);
+      this.handleKey.call(this, evt, true);
     };
     window.onkeyup = (evt) => {
-      this.handleKey(evt, false);
+      this.handleKey.call(this, evt, false);
     };
     window.addEventListener('blur', this.pause.bind(this));
     window.addEventListener('focus', this.play.bind(this));
@@ -119,6 +131,16 @@ export default class InputHandler {
    */
   handleKey(evt, isDown) {
     let key = evt.code;
+    if (key.toLowerCase() === "f2" && !isDown) {
+      this.player.resetPosition();
+      this.commandManager.clearReplay();
+      this.commandManager.init();
+    }
+    if (key.toLowerCase() === "f4" && !isDown) {
+      this.player.resetPosition();
+      this.commandManager.play();
+      return;
+    }
     switch (key.toLowerCase()) {
       case KEY_SPACE:
         this.keySpace = isDown;

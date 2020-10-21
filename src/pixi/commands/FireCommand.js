@@ -2,12 +2,12 @@ import Command from './Command';
 
 export default class FireCommand extends Command {
 
-  constructor(player, commandManager) {
-    super(player, commandManager);
+  constructor(player) {
+    super(player, "Player Fire");
   }
 
-  execute(shouldAddToReplay) {
-    super.execute(shouldAddToReplay);
+  execute() {
+    super.execute();
     this.player.fire();
   }
 

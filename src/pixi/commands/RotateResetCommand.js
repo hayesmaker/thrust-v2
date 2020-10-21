@@ -2,12 +2,12 @@ import Command from './Command';
 
 export default class RotateResetCommand extends Command {
 
-  constructor(player, commandManager) {
-    super(player, commandManager);
+  constructor(player) {
+    super(player, "Reset");
   }
 
-  execute(shouldAddToReplay) {
-    super.execute(shouldAddToReplay);
+  execute() {
+    super.execute();
     this.player.resetAngularForces();
   }
 

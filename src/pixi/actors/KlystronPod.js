@@ -3,11 +3,12 @@ import p2  from 'p2';
 
 import {mpx, pxm} from '../utils/Pixi2P2';
 import BodyDebug from '../rendering/body-debug';
+import Actor from "./Actor";
 
 const RADIUS = 16;
 const DEBUG = false;
 
-export default class KlystronPod {
+export default class KlystronPod extends Actor {
   /**
    * Klystron Pod - Creates an orb and a surrounding sensor area
    * For the Player to make contact with the orb - he must be in the sensor
@@ -17,15 +18,12 @@ export default class KlystronPod {
    * released and constrained to the player with a p2 revolute joint.
    *
    * @constructor
-   * @param camera
-   * @param world
+   * @param params
    */
-  constructor(camera, world) {
-    this.camera = camera;
-    this.world = world;
+  constructor(params) {
+    super(params);
     this.active = false;
     this.sprite = null;
-    this.sensor = null;
     this.body = null;
     this.isClean = true;
     this.sensorBody = null;
