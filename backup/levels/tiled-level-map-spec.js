@@ -3,7 +3,7 @@ import chai from 'chai';
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 const {expect} = chai;
-import TiledLevelMap from '../../src/pixi/levels/TiledLevelMap';
+import TiledLevelMap from '../../src/levels/TiledLevelMap';
 
 describe('TiledLevelMap Tests', function () {
 

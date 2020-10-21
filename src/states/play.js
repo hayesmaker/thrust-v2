@@ -173,24 +173,23 @@ export default class Play {
     /**
      * @method play.update
      * @param deltaFrame
+     * @param deltaTime
      */
-    update(deltaFrame) {
+    update(deltaFrame, deltaTime) {
         if (this.isPaused) {
             return;
         }
         if (!this.hasStarted) {
             this.start();
         }
-        this.inputHanlder.handleInput();
+        this.world.step(1 / REQUIRED_FPS, deltaTime, 1);
         if (this.player.sprite.position.y >= 550) {
             this.zoomTween.play();
         } else {
             this.zoomTween.reverse();
         }
-        this.camera.update();
-        this.world.step(1 / REQUIRED_FPS, deltaFrame, 1);
         if (this.player) {
-            this.player.update(deltaFrame);
+            this.player.update(deltaTime);
         }
         if (this.klystronPod) {
             this.klystronPod.update(deltaFrame);
@@ -198,6 +197,8 @@ export default class Play {
         if (this.tractorBeam) {
             this.tractorBeam.update(deltaFrame);
         }
+        this.camera.update();
+        this.inputHanlder.handleInput();
     }
 
 

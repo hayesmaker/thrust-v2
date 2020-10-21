@@ -3,7 +3,7 @@ import chai from 'chai';
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 const {expect} = chai;
-import Camera from '../../src/pixi/rendering/camera';
+import Camera from '../../src/rendering/camera';
 
 
 describe('Camera Tests', function () {

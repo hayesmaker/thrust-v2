@@ -3,16 +3,16 @@ import chai from 'chai';
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 const {expect} = chai;
-import InputHandler from '../../src/pixi/commands/InputHandler';
+import InputHandler from '../../src/commands/InputHandler';
 import PlayerStub from '../stubs/PlayerStub';
 import StateStub from '../stubs/StateStub';
-import NullCommand from '../../src/pixi/commands/NullCommand';
-import PlayerFireCommand from '../../src/pixi/commands/FireCommand';
-import ThrustCommand from '../../src/pixi/commands/ThrustCommand';
-import RotateRightCommand from '../../src/pixi/commands/RotateRightCommand';
-import RotateLeftCommand from '../../src/pixi/commands/RotateLeftCommand';
-import PlayerLoadCommand from '../../src/pixi/commands/PlayerLoadCommand';
-import RotateResetCommand from '../../src/pixi/commands/RotateResetCommand';
+import NullCommand from '../../src/commands/NullCommand';
+import PlayerFireCommand from '../../src/commands/FireCommand';
+import ThrustCommand from '../../src/commands/ThrustCommand';
+import RotateRightCommand from '../../src/commands/RotateRightCommand';
+import RotateLeftCommand from '../../src/commands/RotateLeftCommand';
+import PlayerLoadCommand from '../../src/commands/PlayerLoadCommand';
+import RotateResetCommand from '../../src/commands/RotateResetCommand';
 
 describe('InputHandler Tests', function () {
   let inputHandler;

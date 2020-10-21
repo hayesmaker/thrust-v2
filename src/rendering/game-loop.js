@@ -31,10 +31,11 @@ export default class GameLoop {
     this.oldTime = newTime;
     if (deltaTime < 0) deltaTime = 0;
     if (deltaTime > 1000) deltaTime = 1000;
+    var deltaTimeSeconds = deltaTime/1000;
     var deltaFrame = deltaTime * 60 / 1000; //1.0 is for single frame
-    this.currentState.meter && this.currentState.meter.tickStart();
+    // this.currentState.meter && this.currentState.meter.tickStart();
     if (this.currentState) {
-      this.currentState.update(deltaFrame);
+      this.currentState.update(deltaFrame, deltaTimeSeconds);
     }
     this.renderer.render(this.stage);
     window.requestAnimationFrame(this.loop.bind(this));

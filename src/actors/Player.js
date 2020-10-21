@@ -20,6 +20,7 @@ export default class Player extends Actor {
     this.hasGrabbed = false;
     this.debug = true;
     this.isAlive = true;
+    this.deltaFrame = 1;
     this.isCleanLeft = true;  //if orb is being redrawn the other side of the map, dont draw tractorbeam
     this.isCleanRight = true;  //if orb is being redrawn the other side of the map, dont draw tractorbeam
     let loader = Loader.shared;
@@ -73,9 +74,10 @@ export default class Player extends Actor {
 
   /**
    *
-   * @param deltaFrame
+   * @param deltaTime
    */
-  update(deltaFrame) {
+  update(deltaTime) {
+    //this.deltaFrame = deltaFrame;
     this.isCleanLeft = true;
     this.isCleanRight = true;
     this.orb.isClean = true;
@@ -116,8 +118,16 @@ export default class Player extends Actor {
       }
     }
   }
+
   thrust() {
-    this.body.applyForceLocal([0, -4]);
+    let force = -4;
+    this.body.applyForceLocal([0, force]);
+  }
+
+  resetAngularForces() {
+    //console.log("Player :: resetAngularForces");
+    this.isReset = true;
+    this.body.angularVelocity = 0;
   }
 
   rotateLeft() {
@@ -141,13 +151,8 @@ export default class Player extends Actor {
   }
 
   loadGun() {
-    console.log("loadGun");
+    //console.log("loadGun");
     this.isLoaded = true;
-  }
-
-  resetAngularForces() {
-    this.isReset = true;
-    this.body.angularVelocity = 0;
   }
 
   resetPosition() {

@@ -3,7 +3,7 @@ import chai from 'chai';
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 const {expect} = chai;
-import Player from '../../src/pixi/actors/Player';
+import Player from '../../src/actors/Player';
 
 
 describe('Player Actor Tests', function () {

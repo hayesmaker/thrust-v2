@@ -1,4 +1,4 @@
-import PixiLauncher from './pixi/launcher';
+import PixiLauncher from './launcher';
 
 export function main() {
   new PixiLauncher();

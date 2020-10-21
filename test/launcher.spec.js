@@ -2,7 +2,7 @@
 import * as PIXI from "pixi.js";
 jest.mock('pixi.js');
 
-import PixiLauncher from "../src/pixi/launcher";
+import PixiLauncher from "../src/launcher";
 
 describe("noo", () => {
   beforeEach(() => {
