@@ -20,6 +20,7 @@
     "jest": "^26.5.3",
     "jest-canvas-mock": "^1.1.0",
     "jsdom": "^16.4.0",
+    "mockdate": "^3.0.2",
     "pixi.js-legacy": "^5.3.3",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",

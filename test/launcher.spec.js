@@ -4,7 +4,7 @@ jest.mock('pixi.js');
 
 import PixiLauncher from "../src/launcher";
 
-describe("noo", () => {
+describe("Launcher Tests", () => {
   beforeEach(() => {
     const fakeView = document.createElement('div');
     PIXI.autoDetectRenderer.mockImplementation(() => {
