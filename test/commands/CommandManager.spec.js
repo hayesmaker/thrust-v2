@@ -1,6 +1,4 @@
-import MockDate from 'mockdate'
 import {times} from 'lodash';
-
 import CommandManager from "../../src/commands/CommandManager";
 
 describe("Command Manager", () => {
@@ -8,12 +6,12 @@ describe("Command Manager", () => {
 
     });
 
-    it("Main instantiates ok", () => {
+    it("Main constructor returns ok", () => {
         let commandManager = new CommandManager();
         expect(commandManager).toBeTruthy();
     });
 
-    it("Main initialises with defaults ok", () => {
+    it("Main constructor initialises correct vars", () => {
         let commandManager = new CommandManager();
         expect(commandManager.isPlaying).toEqual(false);
         expect(commandManager.isSaving).toEqual(false);
@@ -34,13 +32,15 @@ describe("Command Manager", () => {
         expect(commandManager.executeFrameIndex).toBe(-1);
     });
 
-    it("Adding Command should populate a replay given isSaving", () =>{
+    it("addCommand :: Adding Command should populate a replay given isSaving", () => {
         let commandManager = new CommandManager();
-        commandManager.isSaving =true;
+        commandManager.isSaving = true;
         let command1 = {
             execute: jest.fn(),
         }
-        times(20, commandManager.update.bind(commandManager));
+        times(20, () => {
+            commandManager.update();
+        });
         commandManager.addCommand(command1);
         expect(commandManager.replay.length).toBe(1);
         expect(commandManager.replay[0]).toEqual({
@@ -48,8 +48,8 @@ describe("Command Manager", () => {
             frame: 20
         });
     });
-    
-    it("Adding 4000 commands should populate a replay array with correct commands", () => {
+
+    it("addCommand (multiple) :: Adding 4000 commands should populate a replay array with correct commands", () => {
         let commandManager = new CommandManager();
         commandManager.isSaving = true;
         let command1 = {
@@ -61,7 +61,71 @@ describe("Command Manager", () => {
         expect(commandManager.replay.length).toBe(40000);
     });
 
+    it("update :: given is playing and frame reached should execute command", () => {
+        let commandManager = new CommandManager();
+        commandManager.beginRecord();
+        times(100, () => {
+            commandManager.update();
+        });
+        let command = {
+            execute: jest.fn(),
+        }
+        commandManager.addCommand(command);
+        expect(commandManager.replay[0].frame).toEqual(100);
+        commandManager.play(true);
+        times(100, () => {
+            commandManager.update();
+        });
+        expect(command.execute).toHaveBeenCalled();
+    });
 
+    it("update :: given is playing and frame not reached should not execute command", () => {
+        let commandManager = new CommandManager();
+        commandManager.beginRecord();
+        times(100, () => {
+            commandManager.update();
+        });
+        let command = {
+            execute: jest.fn(),
+        }
+        commandManager.addCommand(command);
+        expect(commandManager.replay[0].frame).toEqual(100);
+        commandManager.play(true);
+        times(99, () => {
+            commandManager.update();
+        });
+        expect(command.execute).not.toHaveBeenCalled();
+    });
+
+    it("update :: given multiple commands should be able to execute on a single frame", () => {
+        let commandManager = new CommandManager();
+        commandManager.beginRecord();
+        times(300, () => {
+            commandManager.update();
+        });
+        let command1 = {execute: jest.fn()}
+        let command2 = {execute: jest.fn()}
+        let command3 = {execute: jest.fn()}
+        let command4 = {execute: jest.fn()}
+        let command5 = {execute: jest.fn()}
+        commandManager.addCommand(command1);
+        commandManager.addCommand(command2);
+        commandManager.addCommand(command3);
+        commandManager.addCommand(command4);
+        times(1, () => {
+            commandManager.update();
+        });
+        commandManager.addCommand(command5);
+        commandManager.play(true);
+        times(300, () => {
+            commandManager.update();
+        });
+        expect(command1.execute).toHaveBeenCalled();
+        expect(command2.execute).toHaveBeenCalled();
+        expect(command3.execute).toHaveBeenCalled();
+        expect(command4.execute).toHaveBeenCalled();
+        expect(command5.execute).not.toHaveBeenCalled();
+    });
 
 
 

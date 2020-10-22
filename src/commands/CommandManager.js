@@ -65,7 +65,7 @@ export default class CommandManager {
         checkNext();
       }
     } else {
-      console.log("CommandManager :: replay finished");
+      //console.log("CommandManager :: replay finished");
     }
   }
 }
