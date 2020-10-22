@@ -14,7 +14,6 @@ export default class CommandManager {
   }
 
   beginRecord() {
-    console.log("CommandManager :: beginRecord");
     this.init();
     this.isSaving = true;
   }
@@ -33,19 +32,17 @@ export default class CommandManager {
   }
 
   addCommand(command) {
-    if (this.isPlaying) {
-      return;
+    if (this.isSaving) {
+      let replay = {
+        command,
+        frame: this.replayIndex
+      }
+      this.replay.push(replay);
     }
-    let replay = {
-      command,
-      frame: this.replayIndex
-    }
-    this.replay.push(replay);
   }
 
   play(isFirst) {
     if (isFirst) {
-      console.log("CommandManager :: beginPlayback");
       this.isSaving = false;
       this.replayIndex = 0;
       this.isPlaying = true;

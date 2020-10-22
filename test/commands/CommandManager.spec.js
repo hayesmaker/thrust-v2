@@ -1,4 +1,5 @@
 import MockDate from 'mockdate'
+import {times} from 'lodash';
 
 import CommandManager from "../../src/commands/CommandManager";
 
@@ -13,46 +14,51 @@ describe("Command Manager", () => {
     });
 
     it("Main initialises with defaults ok", () => {
-        var currentTimestamp = 819170640000
-        MockDate.set(currentTimestamp);
         let commandManager = new CommandManager();
         expect(commandManager.isPlaying).toEqual(false);
-        expect(commandManager.oldTime).toEqual(currentTimestamp);
+        expect(commandManager.isSaving).toEqual(false);
         expect(commandManager.replay).toEqual([]);
+        expect(commandManager.replayIndex).toBe(0);
+        expect(commandManager.frameCommands).toEqual([]);
+        expect(commandManager.executeFrameIndex).toBe(-1);
     });
 
-    it("Adding Command should populate a replay with correct timestamp", () =>{
-        var currentTimestamp = 819170640000
-        MockDate.set(currentTimestamp);
+    it("beginRecord should re-initialise defaults and init saving", () => {
         let commandManager = new CommandManager();
+        commandManager.beginRecord();
+        expect(commandManager.isPlaying).toEqual(false);
+        expect(commandManager.isSaving).toEqual(true);
+        expect(commandManager.replay).toEqual([]);
+        expect(commandManager.replayIndex).toBe(0);
+        expect(commandManager.frameCommands).toEqual([]);
+        expect(commandManager.executeFrameIndex).toBe(-1);
+    });
+
+    it("Adding Command should populate a replay given isSaving", () =>{
+        let commandManager = new CommandManager();
+        commandManager.isSaving =true;
         let command1 = {
             execute: jest.fn(),
         }
-        currentTimestamp = 819170640020;
-        MockDate.set(currentTimestamp);
-
+        times(20, commandManager.update.bind(commandManager));
         commandManager.addCommand(command1);
         expect(commandManager.replay.length).toBe(1);
         expect(commandManager.replay[0]).toEqual({
             command: command1,
-            time: 20
+            frame: 20
         });
     });
     
     it("Adding 4000 commands should populate a replay array with correct commands", () => {
-        var currentTimestamp = 819170640000;
-        MockDate.set(currentTimestamp);
         let commandManager = new CommandManager();
+        commandManager.isSaving = true;
         let command1 = {
             execute: jest.fn(),
         }
         for (let i = 0; i < 40000; i++) {
-            currentTimestamp += 20;    //80000
-            MockDate.set(currentTimestamp);
             commandManager.addCommand(command1);
         }
         expect(commandManager.replay.length).toBe(40000);
-        expect(commandManager.oldTime).toBe(819171440000);
     });
 
 
