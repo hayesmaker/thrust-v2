@@ -60,9 +60,10 @@ export default class InputHandler {
   }
 
   /**
-   * @method handleInput
+   * @method update
    */
-  handleInput () {
+  update () {
+    this.commandManager.update();
     this.handleKeyInput();
   }
 
@@ -126,18 +127,24 @@ export default class InputHandler {
   handleKey(evt, isDown) {
     let key = evt.code;
     if (key.toLowerCase() === "f2" && !isDown) {
-      this.player.resetPosition();
-      this.commandManager.init();
+      this.keyLeft = false;
+      this.keyRight = false;
+      this.keyUp = false;
+      this.keyDown = false;
+      this.keySpace = false;
+      this.keySpaceUp = true;
+      this.state.resetPosition();
+      this.commandManager.beginRecord();
     }
     if (key.toLowerCase() === "f4" && !isDown) {
-      this.player.resetPosition();
       this.keyLeft = null;
       this.keyRight = null;
       this.keyUp = null;
       this.keyDown = null;
       this.keySpace = null;
       this.keySpaceUp = null;
-      this.commandManager.play();
+      this.state.resetPosition();
+      this.commandManager.play(true);
       return;
     }
     switch (key.toLowerCase()) {

@@ -6,7 +6,7 @@ import BodyDebug from '../rendering/body-debug';
 import Actor from "./Actor";
 
 const RADIUS = 16;
-const DEBUG = false;
+const DEBUG = true;
 
 export default class KlystronPod extends Actor {
   /**
@@ -22,11 +22,11 @@ export default class KlystronPod extends Actor {
    */
   constructor(params) {
     super(params);
-    this.active = false;
     this.sprite = null;
     this.body = null;
-    this.isClean = true;
     this.sensorBody = null;
+    this.active = false;
+    this.isClean = true;
     let loader = Loader.shared;
     this.gameData = loader.resources[global.ASSETS.levelDataPath].data;
     this.levelData = this.gameData.data[0];
@@ -35,23 +35,12 @@ export default class KlystronPod extends Actor {
     if (DEBUG) {
       this.initDebug();
     }
-
   }
 
   createSensor() {
     let x = this.levelData.orb.x + this.levelData.world.width;
     let y = this.levelData.orb.y;
     let radius = RADIUS * 6;
-    // let graphics = new Graphics();
-    // graphics.beginFill(0xff0000, 0.1)
-    // //graphics.lineStyle(1, 0x4affff, 1);
-    // graphics.drawCircle(0, 0, radius);
-    // graphics.endFill();
-    // this.sensor = new Sprite();
-    // this.sensor.addChild(graphics);
-    // this.sensor.anchor.set(0.5,0.5);
-    // this.camera.world.addChild(this.sensor);
-
     let shape = new p2.Circle({
       radius: pxm(radius),
     });
@@ -64,8 +53,6 @@ export default class KlystronPod extends Actor {
     });
     this.sensorBody.addShape(shape);
     this.sensorBody.parent = this;
-    // this.sensor.x = x;
-    // this.sensor.y = y;
     this.world.addBody(this.sensorBody);
     if (DEBUG) {
       let spr = new Sprite();
@@ -85,8 +72,6 @@ export default class KlystronPod extends Actor {
     this.sprite.anchor.set(0.5,0.5);
     this.camera.world.addChild(this.sprite);
     this.active = true;
-    console.log("levelData", this.levelData);
-
     let x = this.levelData.orb.x + this.levelData.world.width;
     let y = this.levelData.orb.y;
     let shape = new p2.Circle({
@@ -97,7 +82,6 @@ export default class KlystronPod extends Actor {
     this.body = new p2.Body({
       gravityScale: 0,
       mass: 1,
-
       angularVelocity: 0,
       position: [pxm(x), pxm(y)]
     });
@@ -128,14 +112,37 @@ export default class KlystronPod extends Actor {
 
   destroySensor() {
     this.world.removeBody(this.sensorBody);
+    this.sensorBody = null;
     if (DEBUG) {
       this.camera.world.removeChild(this.debugSensor.sprite);
       this.debugSensor = null;
     }
   }
 
+  connect() {
+    this.body.gravityScale = 1;
+    this.destroySensor();
+  }
+
+  resetPosition() {
+    let x = this.levelData.orb.x + this.levelData.world.width;
+    let y = this.levelData.orb.y;
+    let angle = 0;
+    this.body.gravityScale = 0;
+    super.resetPosition(x, y, angle);
+    if (this.sensorBody) {
+      this.sensorBody.position = [pxm(x), pxm(y)];
+      this.sensorBody.angle = angle;
+      this.sensorBody.angularVelocity = 0;
+      this.sensorBody.velocity = [0,0];
+      this.sensorBody.setZeroForce();
+    } else {
+      this.createSensor();
+    }
+    this.update();
+  }
+
   destroy() {
-    alert();
     this.active = false;
     this.world.removeBody(this.body);
     this.body.setZeroForce();

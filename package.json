@@ -9,7 +9,8 @@
     "gsap": "^3.5.1",
     "p2": "^0.7.1",
     "pixi.js": "^5.3.3",
-    "stats.js": "^0.17.0"
+    "stats.js": "^0.17.0",
+    "tasktimer": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",

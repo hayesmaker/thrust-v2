@@ -182,7 +182,6 @@ export default class Play {
         if (!this.hasStarted) {
             this.start();
         }
-        this.world.step(1 / REQUIRED_FPS, deltaTime, 1);
         if (this.player.sprite.position.y >= 550) {
             this.zoomTween.play();
         } else {
@@ -198,8 +197,16 @@ export default class Play {
             this.tractorBeam.update(deltaFrame);
         }
         this.camera.update();
-        this.inputHanlder.handleInput();
+        this.inputHanlder.update();
+        this.world.step(1 / REQUIRED_FPS, deltaTime, 1);
     }
+
+    resetPosition() {
+        this.tractorBeam.resetPosition();
+        this.klystronPod.resetPosition();
+        this.player.resetPosition();
+    }
+
 
 
     /**

@@ -47,8 +47,16 @@ export default class TractorBeam {
         }
     }
 
-    unlock() {
+    resetPosition() {
+        this.graphics.clear();
+        this.player.hasGrabbed = false;
+        this.isLocking = false;
         this.isLocked = false;
+        this.hasGrabbed = false;
+        this.timeout = null;
+        if (this.constraint) {
+            this.world.removeConstraint(this.constraint);
+        }
     }
 
     lock() {
@@ -82,13 +90,7 @@ export default class TractorBeam {
                 maxForce,
             });
             this.world.addConstraint(this.constraint);
-            this.orb.body.mass = 1;
-            this.orb.body.gravityScale = 1;
-            this.orb.destroySensor();
-            // this.orb.body.velocity = 0;
-            // this.orb.body.angularVelocity = 0;
-            // this.orb.body.angle = 0;
-
+            this.orb.connect();
         }
     }
 

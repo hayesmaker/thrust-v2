@@ -25,7 +25,6 @@ describe("Command Manager", () => {
         var currentTimestamp = 819170640000
         MockDate.set(currentTimestamp);
         let commandManager = new CommandManager();
-
         let command1 = {
             execute: jest.fn(),
         }
@@ -41,7 +40,7 @@ describe("Command Manager", () => {
     });
     
     it("Adding 4000 commands should populate a replay array with correct commands", () => {
-        var currentTimestamp = 819170640000
+        var currentTimestamp = 819170640000;
         MockDate.set(currentTimestamp);
         let commandManager = new CommandManager();
         let command1 = {
@@ -52,10 +51,10 @@ describe("Command Manager", () => {
             MockDate.set(currentTimestamp);
             commandManager.addCommand(command1);
         }
-
         expect(commandManager.replay.length).toBe(40000);
         expect(commandManager.oldTime).toBe(819171440000);
     });
+
 
 
 
