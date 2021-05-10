@@ -6,10 +6,10 @@
   "repository": "https://github.com/hayesmaker/thrust-v2",
   "private": true,
   "dependencies": {
-    "gsap": "^3.5.1",
-    "p2": "^0.7.1",
-    "pixi.js": "^5.3.3",
-    "stats.js": "^0.17.0"
+    "gsap": "^3.6.1",
+    "p2": "0.7.1",
+    "pixi.js": "5.3.3",
+    "stats.js": "0.17.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
