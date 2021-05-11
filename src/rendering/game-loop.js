@@ -22,7 +22,7 @@ export default class GameLoop {
     this.isStopped = true;
   }
   loop () {
-    this.stats.begin();
+    //this.stats.begin();
     if (this.stopped) {
       return;
     }
@@ -40,6 +40,6 @@ export default class GameLoop {
     this.renderer.render(this.stage);
     window.requestAnimationFrame(this.loop.bind(this));
 
-    this.stats.end();
+    //this.stats.end();
   }
 }
